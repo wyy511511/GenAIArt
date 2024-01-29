@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Step 1: Start the image generation task and get the task ID
 const startImageGenerationTask = async (promptCall) => {
-  const apiKey = process.env.REACT_APP_API_KEY;
+  const apiKey = process.env.GoAPI_API_KEY;
 
   const options = {
     headers: {
