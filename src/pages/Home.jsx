@@ -12,8 +12,12 @@ import ChooseResults from "../components/ChooseResults";
 import RecentResults from "../components/RecentResults";
 
 const Home = () => {
-  const [showLoader, setShowLoader] = useState(false);
-  const [imageResult, setImageResult] = useState(null);
+  const [showLoader1, setShowLoader1] = useState(false);
+  const [showLoader2, setShowLoader2] = useState(false);
+
+  const [imageResult1, setImageResult1] = useState(null);
+  const [imageResult2, setImageResult2] = useState(null);
+
   const [promptQuery, setPromptQuery] = useState("");
   const [radioValue, setRadioValue] = useState("20");
   const [dropDownValue, setDropDownValue] = useState("DDIM");
@@ -79,7 +83,9 @@ const Home = () => {
   // };
   
   const fetchData = async () => {
-    setShowLoader(true);
+    setShowLoader1(true);
+    setShowLoader2(true);
+
   
     // 单独处理第一个 API 调用的 Promise
     fetchImages(promptQuery).then(firstImageBlob => {
@@ -91,14 +97,24 @@ const Home = () => {
         // 展示第一个图像，例如更新状态或 DOM 元素
       };
       fileReaderInstance.readAsDataURL(firstImageBlob);
+      setShowLoader1(false);
     }).catch(error => {
       console.error("Error fetching first image:", error);
     });
   
     // 单独处理第二个 API 调用的 Promise
-    generateAndFetchImage(promptQuery).then(secondImageUrl => {
+    generateAndFetchImage(promptQuery).then(secondImageBlob => {
       // 当第二个 API 调用完成时，展示结果
-      console.log('Second Image URL:', secondImageUrl);
+      const fileReaderInstance = new FileReader();
+      fileReaderInstance.onload = () => {
+        const base64data = fileReaderInstance.result;
+        console.log('2 Image Base64:', base64data);
+        // 展示第一个图像，例如更新状态或 DOM 元素
+      };
+      fileReaderInstance.readAsDataURL(secondImageBlob);
+      setShowLoader2(false);
+
+
       // 展示第二个图像，例如更新状态或 DOM 元素
     }).catch(error => {
       console.error("Error fetching second image:", error);
@@ -192,19 +208,27 @@ const Home = () => {
         <button onClick={handleGenerate}>Generate the Image</button>
       </div>
 
-      {showLoader ? (
-        <div style={{ margin: 40 }}>Blazing fast results... ⚡️⚡️⚡️</div>
+      {showLoader1 ? (
+        <div style={{ margin: 20 }}>Blazing fast results1... ⚡️⚡️⚡️</div>
       ) : (
         <>
-          <ImageBox promptQuery={promptQuery} imageResult={imageResult} />
+          <ImageBox promptQuery={promptQuery} imageResult={imageResult1} />
+        </>
+      )}
+
+      {showLoader2 ? (
+        <div style={{ margin: 20 }}>Blazing fast results2... ⚡️⚡️⚡️</div>
+      ) : (
+        <>
+          <ImageBox promptQuery={promptQuery} imageResult={imageResult2} />
         </>
       )}
       <ChooseResults onSelect={handleAvailOptions} />
-      <RecentResults
+      {/* <RecentResults
         promptQuery={null}
         imageResult={imageResult}
         onSelect={handleAvailOptions}
-      />
+      /> */}
       <div className="slideShowMessage">{loaderMessage}</div>
       <div className="footer">Powered by SegMind</div>
     </div>
