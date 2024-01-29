@@ -47,29 +47,24 @@ const Home = () => {
   const fetchData = async () => {
     try {
       setShowLoader(true);
-
-      const imageBlob = await fetchImages(
-        promptQuery,
-        seedValue,
-        dropDownValue,
-        radioValue
-      );
-
+  
+      // 调用新的 fetchImages 函数，只传入 promptQuery
+      const imageBlob = await fetchImages(promptQuery);
+  
       const fileReaderInstance = new FileReader();
-      // This event will fire when the image Blob is fully loaded and ready to be displayed
       fileReaderInstance.onload = () => {
         let base64data = fileReaderInstance.result;
         setImageResult(base64data);
       };
-      // Use the readAsDataURL() method of the FileReader instance to read the image Blob and convert it into a data URL
       fileReaderInstance.readAsDataURL(imageBlob);
+      
       setShowLoader(false);
     } catch (error) {
-      // Handle error
       console.error("Error fetching images from API:", error);
       setShowLoader(false);
     }
   };
+  
 
   const handleSurpriseMe = (e) => {
     const surprisePrompt = getRandom(promptIdeas);
