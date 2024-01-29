@@ -83,45 +83,26 @@ const Home = () => {
   // };
   
   const fetchData = async () => {
-    setShowLoader1(true);
-    setShowLoader2(true);
-
+    try {
+      setShowLoader1(true);
+      setShowLoader2(true);
   
-    // 单独处理第一个 API 调用的 Promise
-    fetchImages(promptQuery).then(firstImageBlob => {
-      // 当第一个 API 调用完成时，处理并展示结果
-      const fileReaderInstance = new FileReader();
-      fileReaderInstance.onload = () => {
-        const base64data = fileReaderInstance.result;
-        console.log('First Image Base64:', base64data);
-        // 展示第一个图像，例如更新状态或 DOM 元素
-      };
-      fileReaderInstance.readAsDataURL(firstImageBlob);
+      // 调用 fetchImages 函数并获取第一个图像 URL
+      const imageUrl1 = await fetchImages(promptQuery);
+      // 更新 imageResult1 的状态
+      setImageResult1(imageUrl1);
       setShowLoader1(false);
-    }).catch(error => {
-      console.error("Error fetching first image:", error);
-    });
   
-    // 单独处理第二个 API 调用的 Promise
-    generateAndFetchImage(promptQuery).then(secondImageBlob => {
-      // 当第二个 API 调用完成时，展示结果
-      const fileReaderInstance = new FileReader();
-      fileReaderInstance.onload = () => {
-        const base64data = fileReaderInstance.result;
-        console.log('2 Image Base64:', base64data);
-        // 展示第一个图像，例如更新状态或 DOM 元素
-      };
-      fileReaderInstance.readAsDataURL(secondImageBlob);
+      // 调用 generateAndFetchImage 函数并获取第二个图像 URL
+      const imageUrl2 = await generateAndFetchImage(promptQuery);
+      // 更新 imageResult2 的状态
+      setImageResult2(imageUrl2);
       setShowLoader2(false);
-
-
-      // 展示第二个图像，例如更新状态或 DOM 元素
-    }).catch(error => {
-      console.error("Error fetching second image:", error);
-    });
-  
-    // 不再使用 Promise.all，这里的 setShowLoader(false) 需要调整
-    //考虑需要在两个 API 调用都完成后才隐藏加载指示器
+    } catch (error) {
+      console.error("Error fetching images from APIs:", error);
+      setShowLoader1(false);
+      setShowLoader2(false);
+    }
   };
   
   

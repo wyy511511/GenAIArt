@@ -71,18 +71,29 @@ const downloadImageAsArrayBuffer = async (imageUrl1) => {
 };
 
 // Combine the steps in the fetchImages function
+// export const fetchImages = async (promptCall) => {
+//   try {
+//     const taskID = await startImageGenerationTask(promptCall);
+//     const imageUrl1 = await fetchImageURL(taskID);
+//     const imageArrayBuffer = await downloadImageAsArrayBuffer(imageUrl1);
+//     return new Blob([imageArrayBuffer], { type: "image/jpeg" }); // Convert ArrayBuffer to Blob
+//   } catch (error) {
+//     console.error(`Error in fetchImages function: ${error}`);
+//     throw error;
+//   }
+// };
+
 export const fetchImages = async (promptCall) => {
   try {
     const taskID = await startImageGenerationTask(promptCall);
     const imageUrl1 = await fetchImageURL(taskID);
-    const imageArrayBuffer = await downloadImageAsArrayBuffer(imageUrl1);
-    return new Blob([imageArrayBuffer], { type: "image/jpeg" }); // Convert ArrayBuffer to Blob
+
+    return imageUrl1; // Convert ArrayBuffer to Blob
   } catch (error) {
     console.error(`Error in fetchImages function: ${error}`);
     throw error;
   }
 };
-
 
 
 //second for stable diffusion 
@@ -152,18 +163,30 @@ const downloadImageAsArrayBuffer2 = async (imageUrl2) => {
 
 
 
+// export const generateAndFetchImage = async (promptCall) => {
+//   try {
+//     const id = await startImageGeneration(promptCall); // 启动图像生成并获取 ID
+//     const imageUrl2 = await fetchImageURLWithID(id); 
+//     console.log(imageUrl2); // 处理或显示图像 URL
+//     const imageArrayBuffer = await downloadImageAsArrayBuffer2(imageUrl2);
+//     return new Blob([imageArrayBuffer], { type: "image/jpeg" }); // 使用 ID 获取图像 URL
+    
+//   } catch (error) {
+//     console.error(`Error in generateAndFetchImage: ${error}`);
+//   }
+// };
+
 export const generateAndFetchImage = async (promptCall) => {
   try {
     const id = await startImageGeneration(promptCall); // 启动图像生成并获取 ID
     const imageUrl2 = await fetchImageURLWithID(id); 
-    console.log(imageUrl2); // 处理或显示图像 URL
-    const imageArrayBuffer = await downloadImageAsArrayBuffer2(imageUrl2);
-    return new Blob([imageArrayBuffer], { type: "image/jpeg" }); // 使用 ID 获取图像 URL
+    console.log(imageUrl2); 
+
+    return imageUrl2; // 使用 ID 获取图像 URL
     
   } catch (error) {
     console.error(`Error in generateAndFetchImage: ${error}`);
   }
 };
 
-// 使用示例
 
