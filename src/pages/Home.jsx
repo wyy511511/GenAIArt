@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import ImageBox from "../components/ImageBox";
 import NavBar from "../components/NavBar";
-import { fetchImages } from "../services/model-api";
+// import { fetchImages } from "../services/model-api";
+// // 导入默认导出时不使用花括号
+// import generateAndFetchImage from '../services/model-api';
+// 在其他文件中
+import { fetchImages, generateAndFetchImage } from '../services/model-api';
+
 import { getRandom, loaderMessages, promptIdeas } from "../utilities/utils";
 import ChooseResults from "../components/ChooseResults";
 import RecentResults from "../components/RecentResults";
@@ -44,26 +49,66 @@ const Home = () => {
     fetchData();
   };
 
+  // const fetchData = async () => {
+  //   try {
+  //     setShowLoader(true);
+  
+  //     // 并行调用两个 API
+  //     const [firstImageBlob, secondImageUrl] = await Promise.all([
+  //       fetchImages(promptQuery), // 第一个API调用
+  //       fetchSecondImage(promptQuery) // 第二个API调用
+  //     ]);
+  
+  //     // 处理第一个 API 的结果
+  //     const fileReaderInstance = new FileReader();
+  //     fileReaderInstance.onload = () => {
+  //       let base64data = fileReaderInstance.result;
+  //       // 处理第一个图像结果
+  //     };
+  //     fileReaderInstance.readAsDataURL(firstImageBlob);
+  
+  //     // 直接使用第二个 API 的 URL 结果
+  //     // 你可能需要根据你的应用需求来决定如何展示这个图像
+  //     console.log('Second Image URL:', secondImageUrl);
+  
+  //     setShowLoader(false);//进度条 
+  //   } catch (error) {
+  //     console.error("Error fetching images from APIs:", error);
+  //     setShowLoader(false);
+  //   }
+  // };
+  
   const fetchData = async () => {
-    try {
-      setShowLoader(true);
+    setShowLoader(true);
   
-      // 调用新的 fetchImages 函数，只传入 promptQuery
-      const imageBlob = await fetchImages(promptQuery);
-  
+    // 单独处理第一个 API 调用的 Promise
+    fetchImages(promptQuery).then(firstImageBlob => {
+      // 当第一个 API 调用完成时，处理并展示结果
       const fileReaderInstance = new FileReader();
       fileReaderInstance.onload = () => {
-        let base64data = fileReaderInstance.result;
-        setImageResult(base64data);
+        const base64data = fileReaderInstance.result;
+        console.log('First Image Base64:', base64data);
+        // 展示第一个图像，例如更新状态或 DOM 元素
       };
-      fileReaderInstance.readAsDataURL(imageBlob);
-      
-      setShowLoader(false);
-    } catch (error) {
-      console.error("Error fetching images from API:", error);
-      setShowLoader(false);
-    }
+      fileReaderInstance.readAsDataURL(firstImageBlob);
+    }).catch(error => {
+      console.error("Error fetching first image:", error);
+    });
+  
+    // 单独处理第二个 API 调用的 Promise
+    generateAndFetchImage(promptQuery).then(secondImageUrl => {
+      // 当第二个 API 调用完成时，展示结果
+      console.log('Second Image URL:', secondImageUrl);
+      // 展示第二个图像，例如更新状态或 DOM 元素
+    }).catch(error => {
+      console.error("Error fetching second image:", error);
+    });
+  
+    // 不再使用 Promise.all，这里的 setShowLoader(false) 需要调整
+    //考虑需要在两个 API 调用都完成后才隐藏加载指示器
   };
+  
+  
   
 
   const handleSurpriseMe = (e) => {
@@ -156,7 +201,7 @@ const Home = () => {
       )}
       <ChooseResults onSelect={handleAvailOptions} />
       <RecentResults
-        promptQuery={promptQuery}
+        promptQuery={null}
         imageResult={imageResult}
         onSelect={handleAvailOptions}
       />
