@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #1d00cf;
+  background-color: #040113;
   min-height: 1vh;
   display: flex;
   flex-direction: row;
@@ -24,7 +24,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #e6ebed;
 }
 
 @keyframes App-logo-spin {
@@ -129,15 +129,25 @@ button {
 }
 
 .formValue {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 10px;
   width: 200px;
 }
+
+.centeredContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 .footer {
   width: 100%;
   position: fixed;
   bottom: 0;
-  background-color: #1d00cf;
+  background-color: #121214;
   display: flex;
   justify-content: center;
   color: white;

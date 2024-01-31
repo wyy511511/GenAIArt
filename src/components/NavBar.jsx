@@ -4,15 +4,15 @@ import "../App.css";
 const NavBar = () => {
   return (
     <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" width={100} />
-      <p>GenAI - Image Generator</p>
+      {/* <img src={logo} className="App-logo" alt="logo" width={100} /> */}
+      <p>ATLS 4519 Generative AI</p>
       <a
         className="App-link"
-        href="https://www.segmind.com/"
+        href="https://github.com/wyy511511/GenAIArt.git"
         target="_blank"
         rel="noopener noreferrer"
       >
-        SegMind
+        GitHub
       </a>
     </header>
   );
