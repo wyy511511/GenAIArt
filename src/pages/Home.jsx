@@ -158,7 +158,7 @@ const Home = () => {
         />
         <button onClick={handleSurpriseMe}>Surprise Me</button>
       </div>
-      <div className="formBox">
+      {/* <div className="formBox">
         <div className="formValue">
           <label>Scheduler &nbsp;</label>
           <select name="dropdown" value={dropDownValue} onChange={handleChange}>
@@ -208,7 +208,7 @@ const Home = () => {
             onChange={handleChange}
           />
         </div>
-      </div>
+      </div> */}
       <div>
         <button onClick={handleGenerate}>Generate the Image</button>
       </div>
