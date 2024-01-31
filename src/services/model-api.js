@@ -168,8 +168,8 @@ export const generateAndFetchImage = async (promptCall) => {
     const id = await startImageGeneration(promptCall); // 启动图像生成并获取 ID
     const imageUrl2 = await fetchImageURLWithID(id); 
     console.log(imageUrl2); // 处理或显示图像 URL
-    const imageArrayBuffer = await downloadImageAsArrayBuffer2(imageUrl2);
-    return new Blob([imageArrayBuffer], { type: "image/jpeg" }); // 使用 ID 获取图像 URL
+    const imageArrayBuffer2 = await downloadImageAsArrayBuffer2(imageUrl2);
+    return new Blob([imageArrayBuffer2], { type: "image/jpeg" }); // 使用 ID 获取图像 URL
     
   } catch (error) {
     console.error(`Error in generateAndFetchImage: ${error}`);

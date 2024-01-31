@@ -217,7 +217,7 @@ const Home = () => {
         <div style={{ margin: 20 }}>Blazing fast results1... ⚡️⚡️⚡️</div>
       ) : (
         <>
-          <ImageBox promptQuery={promptQuery} imageResult={imageResult1} />
+          <ImageBox promptQuery={"MidJourney_" + promptQuery} imageResult={imageResult1} />
         </>
       )}
 
@@ -225,7 +225,7 @@ const Home = () => {
         <div style={{ margin: 20 }}>Blazing fast results2... ⚡️⚡️⚡️</div>
       ) : (
         <>
-          <ImageBox promptQuery={promptQuery} imageResult={imageResult2} />
+          <ImageBox promptQuery={"StableDiffusion_" +promptQuery} imageResult={imageResult2} />
         </>
       )}
       <ChooseResults onSelect={handleAvailOptions} />
